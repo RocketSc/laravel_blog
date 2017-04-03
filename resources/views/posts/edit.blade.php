@@ -19,6 +19,17 @@
                 'maxlength' => '50'
             ]) }}
 
+            <label for="category_id">Category:</label>
+            <select class="form-control" name="category_id" id="category_id">
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}"
+                    @if ($category->id == $post->category->id)
+                        selected="selected"
+                    @endif
+                    >{{ $category->name }}</option>
+                @endforeach
+            </select>
+
             {{ Form::label('body', 'Body:', ['class' => 'form-spacing-top']) }}
             {{ Form::textarea('body', null, ['class' => 'form-control']) }}
         </div>

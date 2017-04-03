@@ -17,6 +17,11 @@
         </dl>
 
         <dl class="dl-horizontal">
+            <dt>Category:</dt>
+            <dd>{{ $post->category->name }}</dd>
+        </dl>
+
+        <dl class="dl-horizontal">
             <dt>Created At:</dt>
             <dd>{{ $post->created_at->diffForHumans() }}</dd>
         </dl>
