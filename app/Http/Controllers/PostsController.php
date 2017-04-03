@@ -164,8 +164,6 @@ class PostsController extends Controller
 
         session()->flash('success', 'The blog post was successfully deleted');
 
-        $posts = Post::all();
-
-        return view('posts.index', compact('posts'));
+        return redirect()->route('posts.index');
     }
 }
