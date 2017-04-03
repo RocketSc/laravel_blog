@@ -51,7 +51,7 @@ class PostsController extends Controller
         $this->validate($request, [
             'title' => 'required|max:191',
             'slug' => 'required|alpha_dash|min:6|max:50|unique:posts,slug',
-            'category_id' => 'required|numeric',
+            'category_id' => 'required|integer',
             'body'  => 'required'
         ]);
 
