@@ -8,8 +8,16 @@
             <h1>{{ $tag->name }} Tag <small>{{ $tag->posts()->count() }} Posts</small></h1>
         </div>
 
-        <div class="col-md-2 col-md-offset-2">
+        <div class="col-md-2">
             <a class="btn btn-primary btn-block pull-right" href="{{ route('tags.edit', $tag) }}">Edit</a>
+        </div>
+
+        <div class="col-md-2">
+            <form action="{{ route('tags.destroy', $tag) }}" method="POST">
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
+                <button class="btn btn-danger btn-block">Delete</button>
+            </form>
         </div>
     </div>
 
