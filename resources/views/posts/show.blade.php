@@ -7,7 +7,14 @@
     <div class="col-md-8">
         <h1>{{ $post->title }}</h1>
 
+        <div class="tags">
+            @foreach($post->tags as $tag)
+                <span class="label label-default">{{ $tag->name }}</span>
+            @endforeach
+        </div>
+
         <p class="lead">{{ $post->body }}</p>
+
     </div>
 
     <div class="col-md-4">
