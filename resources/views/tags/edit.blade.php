@@ -9,7 +9,11 @@
         
         <div class="form-group">
             <label for="name">Name:</label>
-            <input class="form-control" id="name" type="text" value="{{ $tag->name }}">
+            <input class="form-control"
+                   id="name"
+                   type="text"
+                   name="name"
+                   value="{{ $tag->name }}">
         </div>
         
         <div class="form-group">
