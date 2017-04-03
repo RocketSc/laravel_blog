@@ -67,13 +67,22 @@ class TagsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Tag $tag)
     {
-        //
+        $this->validate(request(), [
+            'name' => 'required|max:191'
+        ]);
+
+        $tag->name = request()->name;
+
+        $tag->save();
+
+        session()->flash('success', 'Successfully saved your new tag!');
+
+        return redirect()->route('tags.show', $tag);
     }
 
     /**
