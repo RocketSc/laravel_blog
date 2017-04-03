@@ -96,7 +96,13 @@ class PostsController extends Controller
     {
         $post = Post::find($id);
         $categories = Category::all();
-        return view('posts.edit', compact('post', 'categories'));
+        $tags = Tag::all();
+
+        $tags_array = array_map(function($tag) {
+            return $tag->id;
+        }, $post->tags->all());
+
+        return view('posts.edit', compact('post', 'categories', 'tags', 'tags_array'));
     }
 
     /**
