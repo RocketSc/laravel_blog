@@ -88,11 +88,16 @@ class TagsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tag $tag)
     {
-        //
+        $tag->posts()->detach();
+        $tag->delete();
+
+        session()->flash('success', 'Tag was deleted successfully');
+
+        return redirect()->route('tags.index');
     }
 }
