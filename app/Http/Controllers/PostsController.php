@@ -135,6 +135,12 @@ class PostsController extends Controller
 
         $post->save();
 
+        if (isset($request->tags)) {
+            $post->tags()->sync($request->tags, true);
+        } else {
+            $post->tags()->sync([], true);
+        }
+
         session()->flash('success', 'The blog post was successfully updated!');
 
         //redirect to another page
