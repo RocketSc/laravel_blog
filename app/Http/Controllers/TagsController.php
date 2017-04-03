@@ -45,12 +45,12 @@ class TagsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Tag $tag)
     {
-        //
+        return view('tags.show', compact('tag'));
     }
 
     /**
