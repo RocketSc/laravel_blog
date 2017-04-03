@@ -67,6 +67,8 @@ class PostsController extends Controller
 
         $post->save();
 
+        $post->tags()->sync($request->tags, false);
+
         session()->flash('success', 'The blog post was successfully saved!');
 
         //redirect to another page
