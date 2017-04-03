@@ -67,7 +67,11 @@ class PostsController extends Controller
 
         $post->save();
 
-        $post->tags()->sync($request->tags, false);
+        if (isset($request->tags)) {
+            $post->tags()->sync($request->tags, false);
+        } else {
+            $post->tags()->sync([], false);
+        }
 
         session()->flash('success', 'The blog post was successfully saved!');
 
