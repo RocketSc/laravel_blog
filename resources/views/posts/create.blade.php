@@ -42,7 +42,7 @@
 
                 <label for="tags">Tags:</label>
                 <select class="form-control select2-selection--multiple"
-                        name="category_id"
+                        name="tags[]"
                         id="tags"
                         multiple="multiple">
                     @foreach($tags as $tag)
