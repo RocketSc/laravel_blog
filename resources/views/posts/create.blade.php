@@ -4,6 +4,7 @@
 
 @section('stylesheets')
     <link rel="stylesheet" href="/css/parsley.css">
+    <link rel="stylesheet" href="/css/select2.min.css">
 @endsection
 
 @section('content')
@@ -55,4 +56,5 @@
 
 @section('scripts')
     <script src="/js/parsley.min.js"></script>
+    <script src="/js/select2.min.js"></script>
 @endsection
