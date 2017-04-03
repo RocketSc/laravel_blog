@@ -28,4 +28,5 @@ Route::get('/blog', 'BlogController@index')->name('blog.index');
 
 Route::resource('/posts','PostsController');
 Route::resource('/categories', 'CategoryController', ['except' => ['create']]);
+Route::resource('/tags', 'TagsController', ['except' => ['create']]);
 

@@ -2,6 +2,11 @@
 
 @section('title', 'Edit Blog Post')
 
+@section('stylesheets')
+    <link rel="stylesheet" href="/css/parsley.css">
+    <link rel="stylesheet" href="/css/select2.min.css">
+@endsection
+
 @section('content')
     <div class="row">
         {!!  Form::model($post, ['route' => ['posts.update', $post->id]]) !!}
@@ -27,6 +32,20 @@
                         selected="selected"
                     @endif
                     >{{ $category->name }}</option>
+                @endforeach
+            </select>
+
+            <label for="tags">Tags:</label>
+            <select class="form-control select2-selection--multiple"
+                    name="tags[]"
+                    id="tags"
+                    multiple="multiple">
+                @foreach($tags as $tag)
+                    <option value="{{ $tag->id }}"
+                            @if( array_search($tag->id, $tags_array) !== false )
+                                selected="selected"
+                            @endif
+                    >{{ $tag->name }}</option>
                 @endforeach
             </select>
 
@@ -62,4 +81,13 @@
         </div>
         {!! Form::close() !!}
     </div>
+@endsection
+
+@section('scripts')
+    <script src="/js/parsley.min.js"></script>
+    <script src="/js/select2.min.js"></script>
+
+    <script>
+      $('.select2-selection--multiple').select2();
+    </script>
 @endsection

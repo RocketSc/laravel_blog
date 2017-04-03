@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Tag;
 use Illuminate\Http\Request;
 use App\Post;
 
@@ -35,8 +36,9 @@ class PostsController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('posts.create', compact('categories'));
+        return view('posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -65,6 +67,12 @@ class PostsController extends Controller
 
         $post->save();
 
+        if (isset($request->tags)) {
+            $post->tags()->sync($request->tags, false);
+        } else {
+            $post->tags()->sync([], false);
+        }
+
         session()->flash('success', 'The blog post was successfully saved!');
 
         //redirect to another page
@@ -92,7 +100,13 @@ class PostsController extends Controller
     {
         $post = Post::find($id);
         $categories = Category::all();
-        return view('posts.edit', compact('post', 'categories'));
+        $tags = Tag::all();
+
+        $tags_array = array_map(function($tag) {
+            return $tag->id;
+        }, $post->tags->all());
+
+        return view('posts.edit', compact('post', 'categories', 'tags', 'tags_array'));
     }
 
     /**
@@ -125,6 +139,12 @@ class PostsController extends Controller
 
         $post->save();
 
+        if (isset($request->tags)) {
+            $post->tags()->sync($request->tags, true);
+        } else {
+            $post->tags()->sync([], true);
+        }
+
         session()->flash('success', 'The blog post was successfully updated!');
 
         //redirect to another page
@@ -140,12 +160,11 @@ class PostsController extends Controller
      */
     public function destroy(Post $post)
     {
+        $post->tags()->detach();
         $post->delete();
 
         session()->flash('success', 'The blog post was successfully deleted');
 
-        $posts = Post::all();
-
-        return view('posts.index', compact('posts'));
+        return redirect()->route('posts.index');
     }
 }
