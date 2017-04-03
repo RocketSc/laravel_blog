@@ -40,6 +40,16 @@
                     @endforeach
                 </select>
 
+                <label for="tags">Tags:</label>
+                <select class="form-control select2-selection--multiple"
+                        name="category_id"
+                        id="tags"
+                        multiple="multiple">
+                    @foreach($tags as $tag)
+                        <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                    @endforeach
+                </select>
+
                 {{ Form::label('body', 'Post Body:') }}
                 {{ Form::textarea('body', null, [
                     'class' => 'form-control',
@@ -57,4 +67,8 @@
 @section('scripts')
     <script src="/js/parsley.min.js"></script>
     <script src="/js/select2.min.js"></script>
+
+    <script>
+        $('.select2-selection--multiple').select2();
+    </script>
 @endsection
