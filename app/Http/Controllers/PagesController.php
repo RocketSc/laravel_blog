@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use Mail;
 
 class PagesController extends Controller
 {
@@ -38,6 +39,26 @@ class PagesController extends Controller
 
     public function postContact()
     {
+        $this->validate(request(),[
+            'email'   => 'required|email',
+            'subject' => 'required|min:3',
+            'message' => 'required|min:10'
+        ]);
 
+        $data = [
+            'email' => request('email'),
+            'subject' => request('subject'),
+            'bodyMessage' => request('message')
+        ];
+
+        Mail::send('emails.contact', $data, function($message) use ($data) {
+            $message->from($data['email']);
+            $message->to('admin@test.io');
+            $message->subject($data['subject']);
+        });
+
+        session()->flash('success', 'Your email was sent');
+
+        return redirect()->route('blog.index');
     }
 }
