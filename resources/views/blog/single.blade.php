@@ -31,7 +31,7 @@
 
                 <div class="form-group">
                     <label for="comment">Your comment: </label>
-                    <textarea class="form-control" name="comment" id="comment" cols="30" rows="10"></textarea>
+                    <textarea class="form-control" name="body" id="comment" cols="30" rows="10"></textarea>
                 </div>
 
                 <div class="form-group">
