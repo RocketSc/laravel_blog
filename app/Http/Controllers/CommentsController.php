@@ -77,11 +77,22 @@ class CommentsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Post  $post
+     * @param  Comment $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Post $post)
+    public function update(Comment $comment)
     {
+        $this->validate(request(), [
+            'body' => 'required|min:5|max:2000'
+        ]);
+
+        $comment->body = request('body');
+
+        $comment->save();
+
+        session()->flash('success', 'Comment updated!');
+
+        return redirect()->route('posts.show', $comment->post);
 
     }
 
