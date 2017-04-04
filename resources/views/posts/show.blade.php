@@ -31,7 +31,7 @@
                         <td>{{ $comment->email }}</td>
                         <td>{{ $comment->body }}</td>
                         <td>
-                            <a class="btn btn-xs btn-primary" href="#"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-xs btn-primary" href="{{ route('comment.edit', $comment) }}"><span class="glyphicon glyphicon-pencil"></span></a>
                             <a class="btn btn-xs btn-danger" href="#"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>
                     </tr>
