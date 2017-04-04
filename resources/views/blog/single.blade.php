@@ -13,6 +13,18 @@
     </div>
 
     <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h2>Comments:</h2>
+            <hr>
+            @foreach($post->comments as $comment)
+                <h3>{{ $comment->name }}</h3>
+                <p>{{ $comment->body }}</p>
+                <hr>
+            @endforeach
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-8 col-md-offset2">
             <form action="{{route('comment.store', $post)}}"
                   class="form"
