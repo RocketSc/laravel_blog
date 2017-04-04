@@ -8,6 +8,8 @@
             <h1>Contact Me</h1>
             <hr>
             <form action="{{ route('contact.send') }}" method="POST">
+                {{ csrf_field() }}
+
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input id="email" class="form-control" name="email" type="email">
