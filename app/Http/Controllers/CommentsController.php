@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
+use App\Post;
 use Illuminate\Http\Request;
 
 class CommentsController extends Controller
@@ -29,12 +31,25 @@ class CommentsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Post $post
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Post $post)
     {
-        //
+        $this->validate(request(), [
+            'name' => 'required|max:191',
+            'email' => 'required|email|max:191',
+            'body' => 'required|min:5|max:2000'
+        ]);
+
+        $comment = (new Comment( request(['name', 'email', 'body']) ));
+        $comment->post()->associate($post);
+
+        $comment->approve()->save();
+
+        session()->flash('success', 'Your comment has been added');
+
+        return redirect()->route('blog.single', $post->slug);
     }
 
     /**
@@ -62,13 +77,12 @@ class CommentsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Post $post)
     {
-        //
+
     }
 
     /**
