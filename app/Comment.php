@@ -10,4 +10,11 @@ class Comment extends Model
     {
         return $this->belongsTo('App\Post');
     }
+
+    public function approve()
+    {
+        $this->approved = true;
+
+        return $this;
+    }
 }
