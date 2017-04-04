@@ -22,7 +22,7 @@
 
                 <div class="form-group">
                     <label for="comment">Comment: </label>
-                    <textarea id="comment" class="form-control" cols="30" rows="10">{{ $comment->body }}</textarea>
+                    <textarea id="comment" class="form-control" name="body" cols="30" rows="10">{{ $comment->body }}</textarea>
                 </div>
 
                 <div class="form-group">
