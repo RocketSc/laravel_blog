@@ -32,3 +32,7 @@ Route::resource('/posts','PostsController');
 Route::resource('/categories', 'CategoryController', ['except' => ['create']]);
 Route::resource('/tags', 'TagsController', ['except' => ['create']]);
 
+//Comments routes
+Route::post('comment/{post}', 'CommentsController@store')
+     ->name('comment.store');
+
