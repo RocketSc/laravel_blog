@@ -13,7 +13,7 @@
             @endforeach
         </div>
 
-        <p class="lead">{{ $post->body }}</p>
+        <p class="lead">{!! $post->body !!}</p>
         
         <div id="backend-comments">
             <h3>Comments <small>{{ $post->comments()->count() }} total</small></h3>
