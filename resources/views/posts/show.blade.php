@@ -32,7 +32,19 @@
                         <td>{{ $comment->body }}</td>
                         <td>
                             <a class="btn btn-xs btn-primary" href="{{ route('comment.edit', $comment) }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                            <a class="btn btn-xs btn-danger" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+                            <a class="btn btn-xs btn-danger" href="{{ route('comment.destroy', $comment) }}"
+                               onclick="event.preventDefault();
+                                                     if (confirm('Are you sure?') ) {
+                                                        document.getElementById('delete-comment-form').submit();
+                                                     }">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+
+                            <form id="delete-comment-form" action="{{ route('comment.destroy', $comment) }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                            </form>
+
                         </td>
                     </tr>
                 @endforeach
