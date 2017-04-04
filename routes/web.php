@@ -17,7 +17,8 @@ Route::get('/home', 'HomeController@index');
 
 
 Route::get('/contact', 'PagesController@getContact');
-Route::post('/contact', 'PagesController@postContact');
+Route::post('/contact', 'PagesController@postContact')->name('contact.send');
+
 Route::get('/about', 'PagesController@getAbout');
 Route::get('/', 'PagesController@getIndex');
 
