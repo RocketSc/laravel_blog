@@ -20,9 +20,9 @@
                 <div class="form-group">
                     <label for="message">Message:</label>
                     <textarea
-                            id="subject"
+                            id="message"
                             class="form-control"
-                            name="subject"
+                            name="message"
                             placeholder="Type your message here...">
                     </textarea>
                 </div>
