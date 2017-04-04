@@ -14,12 +14,19 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h2>Comments:</h2>
-            <hr>
+            <h3 class="comments-title"><span class="glyphicon glyphicon-comment"></span>
+                {{ $post->comments()->count() }} Comments:</h3>
             @foreach($post->comments as $comment)
-                <h3>{{ $comment->name }}</h3>
-                <p>{{ $comment->body }}</p>
-                <hr>
+                <div class="comment">
+                <div class="author-info">
+                    <img src="{{ 'https://www.gravatar.com/avatar/' . md5( strtolower( trim($comment->email) ) ) . "?d=mm"}}" alt="" class="author-image">
+                    <div class="author-name">
+                        <h4>{{ $comment->name }}</h4>
+                        <div>{{ $comment->created_at->diffForHumans() }}</div>
+                    </div>
+                </div>
+                <div class="comment-content">{{ $comment->body }}</div>
+                </div>
             @endforeach
         </div>
     </div>
