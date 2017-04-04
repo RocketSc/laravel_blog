@@ -20,7 +20,7 @@
 
                 <div class="post">
                     <h3>{{ $post->title }}</h3>
-                    <p>{{ mb_strlen($post->body) < 300 ? ($post->body) : (substr($post->body, 0, 295) . '...') }}</p>
+                    <p>{{ mb_strlen(strip_tags($post->body)) < 300 ? (strip_tags($post->body)) : (substr(strip_tags($post->body), 0, 295) . '...') }}</p>
                     <a href="{{ URL::route('blog.single', $post->slug) }}">Read More</a>
                 </div>
 

@@ -62,7 +62,7 @@ class PostsController extends Controller
 
         $post->title = $request->title;
         $post->slug = $request->slug;
-        $post->body = $request->body;
+        $post->body = clean($request->body);
         $post->category_id = $request->category_id;
 
         $post->save();
@@ -135,7 +135,7 @@ class PostsController extends Controller
         $post->title = $request->input('title');
         $post->slug = $request->input('slug');
         $post->category_id = $request->category_id;
-        $post->body = $request->input('body');
+        $post->body = clean($request->body);
 
         $post->save();
 
