@@ -32,3 +32,18 @@ Route::resource('/posts','PostsController');
 Route::resource('/categories', 'CategoryController', ['except' => ['create']]);
 Route::resource('/tags', 'TagsController', ['except' => ['create']]);
 
+
+//Comments routes
+Route::post('comment/{post}', 'CommentsController@store')
+     ->name('comment.store');
+
+Route::get('comment/{comment}/edit', 'CommentsController@edit')
+    ->name('comment.edit');
+
+Route::put('comment/{comment}', 'CommentsController@update')
+    ->name('comment.update');
+
+Route::delete('comment/{comment}', 'CommentsController@destroy')
+    ->name('comment.destroy');
+
+
