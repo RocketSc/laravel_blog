@@ -58,6 +58,11 @@
                 @endforeach
             </select>
 
+            <div class="form-group">
+                <label for="featured_image" class="">Update Featured Image:</label>
+                <input type="file" id="featured_image" name="featured_image">
+            </div>
+
             {{ Form::label('body', 'Body:', ['class' => 'form-spacing-top']) }}
             {{ Form::textarea('body', null, ['class' => 'form-control']) }}
         </div>
