@@ -62,7 +62,7 @@
                 </div>
                 <div class="form-group">
                     <label for="featured_image" class="">Upload Featured Image:</label>
-                    <input type="file" id="featured_image">
+                    <input type="file" id="featured_image" name="featured_image">
                 </div>
 
                 {{ Form::label('body', 'Post Body:') }}
