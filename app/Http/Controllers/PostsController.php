@@ -55,7 +55,8 @@ class PostsController extends Controller
             'title' => 'required|max:191',
             'slug' => 'required|alpha_dash|min:6|max:50|unique:posts,slug',
             'category_id' => 'required|integer',
-            'body'  => 'required'
+            'body'  => 'required',
+            'featured_image' => 'sometimes|image'
         ]);
 
         //store in the database
