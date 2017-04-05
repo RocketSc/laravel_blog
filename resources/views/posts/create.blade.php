@@ -23,7 +23,8 @@
             <hr>
             {!! Form::open([
                 'route' => 'posts.store',
-                'data-parsley-validate' => ''
+                'data-parsley-validate' => '',
+                'files' => true
             ]) !!}
 
                 {{ Form::label('title', 'Title:') }}
@@ -48,7 +49,7 @@
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
-
+                <div class="form-group">
                 <label for="tags">Tags:</label>
                 <select class="form-control select2-selection--multiple"
                         name="tags[]"
@@ -58,6 +59,11 @@
                         <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                     @endforeach
                 </select>
+                </div>
+                <div class="form-group">
+                    <label for="featured_image" class="">Upload Featured Image:</label>
+                    <input type="file" id="featured_image">
+                </div>
 
                 {{ Form::label('body', 'Post Body:') }}
                 {{ Form::textarea('body', null, [
