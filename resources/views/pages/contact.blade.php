@@ -7,7 +7,9 @@
         <div class="col-md-12">
             <h1>Contact Me</h1>
             <hr>
-            <form action="">
+            <form action="{{ route('contact.send') }}" method="POST">
+                {{ csrf_field() }}
+
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input id="email" class="form-control" name="email" type="email">
@@ -20,10 +22,11 @@
                 <div class="form-group">
                     <label for="message">Message:</label>
                     <textarea
-                            id="subject"
+                            id="message"
                             class="form-control"
-                            name="subject"
-                            placeholder="Type your message here..."></textarea>
+                            name="message"
+                            placeholder="Type your message here...">
+                    </textarea>
                 </div>
 
                 <div class="form-group">

@@ -5,15 +5,64 @@
 @section('content')
 <div class="row">
     <div class="col-md-8">
+        <img src="{{ asset('images/' . $post->image) }}" alt="">
         <h1>{{ $post->title }}</h1>
 
-        <p class="lead">{{ $post->body }}</p>
+        <div class="tags">
+            @foreach($post->tags as $tag)
+                <span class="label label-default">{{ $tag->name }}</span>
+            @endforeach
+        </div>
+
+        <p class="lead">{!! $post->body !!}</p>
+        
+        <div id="backend-comments">
+            <h3>Comments <small>{{ $post->comments()->count() }} total</small></h3>
+            
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Comment</th>
+                    <th style="width: 70px"></th>
+                </tr>
+                @foreach($post->comments as $comment)
+                    <tr>
+                        <td>{{ $comment->name }}</td>
+                        <td>{{ $comment->email }}</td>
+                        <td>{{ $comment->body }}</td>
+                        <td>
+                            <a class="btn btn-xs btn-primary" href="{{ route('comment.edit', $comment) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-xs btn-danger" href="{{ route('comment.destroy', $comment) }}"
+                               onclick="event.preventDefault();
+                                                     if (confirm('Are you sure?') ) {
+                                                        document.getElementById('delete-comment-form').submit();
+                                                     }">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+
+                            <form id="delete-comment-form" action="{{ route('comment.destroy', $comment) }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                            </form>
+
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
+
     </div>
 
     <div class="col-md-4">
         <dl class="dl-horizontal">
             <dt>Url:</dt>
             <dd><a href="{{ URL::route('blog.single', $post->slug) }}">{{ URL::route('blog.single', $post->slug) }}</a></dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>Category:</dt>
+            <dd>{{ $post->category->name }}</dd>
         </dl>
 
         <dl class="dl-horizontal">

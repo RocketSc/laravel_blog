@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Tag;
+use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Http\Request;
 use App\Post;
+use Storage;
 
 class PostsController extends Controller
 {
@@ -35,8 +38,9 @@ class PostsController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('posts.create', compact('categories'));
+        return view('posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -51,8 +55,9 @@ class PostsController extends Controller
         $this->validate($request, [
             'title' => 'required|max:191',
             'slug' => 'required|alpha_dash|min:6|max:50|unique:posts,slug',
-            'category_id' => 'required|numeric',
-            'body'  => 'required'
+            'category_id' => 'required|integer',
+            'body'  => 'required',
+            'featured_image' => 'sometimes|image'
         ]);
 
         //store in the database
@@ -60,10 +65,28 @@ class PostsController extends Controller
 
         $post->title = $request->title;
         $post->slug = $request->slug;
-        $post->body = $request->body;
+        $post->body = clean($request->body);
         $post->category_id = $request->category_id;
 
+
+        if ( $request->hasFile('featured_image') ) {
+            $image = $request->file('featured_image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('images/' . $filename);
+
+            Image::configure(['driver' => 'gd']);
+            Image::make($image)->resize(800, 400)->save($location);
+
+            $post->image = $filename;
+        }
+
         $post->save();
+
+        if (isset($request->tags)) {
+            $post->tags()->sync($request->tags, false);
+        } else {
+            $post->tags()->sync([], false);
+        }
 
         session()->flash('success', 'The blog post was successfully saved!');
 
@@ -91,8 +114,14 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
+        $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('posts.edit', compact('post'));
+        $tags_array = array_map(function($tag) {
+            return $tag->id;
+        }, $post->tags->all());
+
+        return view('posts.edit', compact('post', 'categories', 'tags', 'tags_array'));
     }
 
     /**
@@ -113,15 +142,38 @@ class PostsController extends Controller
 
         $this->validate($request, [
             'title' => 'required|max:191',
-            'body'  => 'required'
+            'category_id' => 'required|integer',
+            'body'  => 'required',
+            'featured_image' => 'sometimes|image'
         ]);
 
 
         $post->title = $request->input('title');
         $post->slug = $request->input('slug');
-        $post->body = $request->input('body');
+        $post->category_id = $request->category_id;
+        $post->body = clean($request->body);
+
+        if ( $request->hasFile('featured_image') ) {
+            $image = $request->file('featured_image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('images/' . $filename);
+
+            Image::configure(['driver' => 'gd']);
+            Image::make($image)->resize(800, 400)->save($location);
+
+            $oldFileName = $post->image;
+            $post->image = $filename;
+
+            Storage::delete($oldFileName);
+        }
 
         $post->save();
+
+        if (isset($request->tags)) {
+            $post->tags()->sync($request->tags, true);
+        } else {
+            $post->tags()->sync([], true);
+        }
 
         session()->flash('success', 'The blog post was successfully updated!');
 
@@ -138,12 +190,13 @@ class PostsController extends Controller
      */
     public function destroy(Post $post)
     {
+        $post->tags()->detach();
+
+        Storage::delete($post->image);
         $post->delete();
 
         session()->flash('success', 'The blog post was successfully deleted');
 
-        $posts = Post::all();
-
-        return view('posts.index', compact('posts'));
+        return redirect()->route('posts.index');
     }
 }

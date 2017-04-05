@@ -4,6 +4,16 @@
 
 @section('stylesheets')
     <link rel="stylesheet" href="/css/parsley.css">
+    <link rel="stylesheet" href="/css/select2.min.css">
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=doxwikvb6n32tjhxpkhkb30bodc0o633pcrckmwe09ry8dhl"></script>
+
+    <script>
+        tinymce.init({
+          selector: 'textarea',
+          plugins: 'link code image',
+          menubar: false
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -13,7 +23,8 @@
             <hr>
             {!! Form::open([
                 'route' => 'posts.store',
-                'data-parsley-validate' => ''
+                'data-parsley-validate' => '',
+                'files' => true
             ]) !!}
 
                 {{ Form::label('title', 'Title:') }}
@@ -33,16 +44,30 @@
                 ]) }}
 
                 <label for="category_id">Category:</label>
-                <select name="category_id" id="category_id">
+                <select class="form-control" name="category_id" id="category_id">
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
+                <div class="form-group">
+                <label for="tags">Tags:</label>
+                <select class="form-control select2-selection--multiple"
+                        name="tags[]"
+                        id="tags"
+                        multiple="multiple">
+                    @foreach($tags as $tag)
+                        <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                    @endforeach
+                </select>
+                </div>
+                <div class="form-group">
+                    <label for="featured_image" class="">Upload Featured Image:</label>
+                    <input type="file" id="featured_image" name="featured_image">
+                </div>
 
                 {{ Form::label('body', 'Post Body:') }}
                 {{ Form::textarea('body', null, [
                     'class' => 'form-control',
-                    'required' => ''
                 ]) }}
 
                 {{ Form::submit('Create Post', ['class' => 'btn btn-success btn-lg btn-block',
@@ -55,4 +80,9 @@
 
 @section('scripts')
     <script src="/js/parsley.min.js"></script>
+    <script src="/js/select2.min.js"></script>
+
+    <script>
+        $('.select2-selection--multiple').select2();
+    </script>
 @endsection

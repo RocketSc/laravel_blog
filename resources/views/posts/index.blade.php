@@ -29,7 +29,7 @@
                             <td>{{ $post->id }}</td>
                             <td>{{ $post->title }}</td>
                             <td>{{
-                                mb_strlen($post->body) < 55 ? ($post->body) : (substr($post->body, 0, 50) . '...')
+                                mb_strlen(strip_tags($post->body)) < 55 ? (strip_tags($post->body)) : (substr(strip_tags($post->body), 0, 50) . '...')
                             }}</td>
                             <td>{{ $post->created_at->toFormattedDateString() }}</td>
                             <td>
