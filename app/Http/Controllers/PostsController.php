@@ -7,6 +7,7 @@ use App\Tag;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Http\Request;
 use App\Post;
+use Storage;
 
 class PostsController extends Controller
 {
@@ -142,7 +143,8 @@ class PostsController extends Controller
         $this->validate($request, [
             'title' => 'required|max:191',
             'category_id' => 'required|integer',
-            'body'  => 'required'
+            'body'  => 'required',
+            'featured_image' => 'sometimes|image'
         ]);
 
 
@@ -150,6 +152,20 @@ class PostsController extends Controller
         $post->slug = $request->input('slug');
         $post->category_id = $request->category_id;
         $post->body = clean($request->body);
+
+        if ( $request->hasFile('featured_image') ) {
+            $image = $request->file('featured_image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('images/' . $filename);
+
+            Image::configure(['driver' => 'gd']);
+            Image::make($image)->resize(800, 400)->save($location);
+
+            $oldFileName = $post->image;
+            $post->image = $filename;
+
+            Storage::delete($oldFileName);
+        }
 
         $post->save();
 
