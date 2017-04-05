@@ -191,6 +191,8 @@ class PostsController extends Controller
     public function destroy(Post $post)
     {
         $post->tags()->detach();
+
+        Storage::delete($post->image);
         $post->delete();
 
         session()->flash('success', 'The blog post was successfully deleted');
