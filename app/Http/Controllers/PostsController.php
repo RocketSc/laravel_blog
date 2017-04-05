@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Tag;
+use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Http\Request;
 use App\Post;
 
@@ -64,6 +65,18 @@ class PostsController extends Controller
         $post->slug = $request->slug;
         $post->body = clean($request->body);
         $post->category_id = $request->category_id;
+
+
+        if ( $request->hasFile('featured_image') ) {
+            $image = $request->file('featured_image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('images/' . $filename);
+
+            Image::configure(['driver' => 'gd']);
+            Image::make($image)->resize(800, 400)->save($location);
+
+            $post->image = $filename;
+        }
 
         $post->save();
 
